@@ -12,13 +12,13 @@ interface ICard {
 const cardSchema = new Schema({
   name: {
     type: String,
-    minlength: 2,
-    maxlength: 30,
-    required: true,
+    minlength: [2, 'Минимальная длина поля "name" - 2 символа'],
+    maxlength: [30, 'Максимальная длина поля "name" - 30 символов'],
+    required: [true, 'Поле "name" должно быть заполнено'],
   },
   link: {
     type: String,
-    required: true,
+    required: [true, 'В поле "link" должна быть указана ссылка'],
   },
   owner: {
     type: Schema.Types.ObjectId,

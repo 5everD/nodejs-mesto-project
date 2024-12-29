@@ -29,7 +29,7 @@ export const createUser = (req: Request, res: Response) => {
   const { name, about, avatar } = req.body;
 
   User.create({ name, about, avatar})
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.status(201).send({ data: user }))
     .catch(() => res.status(DATA_ERROR_CODE).send({ message: DATA_ERROR_MESSAGE }));
 };
 
@@ -41,12 +41,13 @@ export const updateUser = (req: Request, res: Response) => {
     { name, about },
     { new: true, runValidators: true },
   )
+    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(DATA_ERROR_CODE).send({ message: DATA_ERROR_MESSAGE })
       }
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
         return res.status(NOT_FOUND_CODE).send({ message: ID_ERROR_MESSAGE })
       }
       res.status(DEFAULT_ERROR_CODE).send({ message: DEFAULT_ERROR_MESSAGE})
@@ -61,12 +62,13 @@ export const updateAvatar = (req: Request, res: Response) => {
     { avatar },
     { new: true, runValidators: true },
   )
+    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(DATA_ERROR_CODE).send({ message: DATA_ERROR_MESSAGE })
       }
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
         return res.status(NOT_FOUND_CODE).send({ message: ID_ERROR_MESSAGE })
       }
       res.status(DEFAULT_ERROR_CODE).send({ message: DEFAULT_ERROR_MESSAGE})
