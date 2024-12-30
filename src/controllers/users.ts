@@ -16,9 +16,10 @@ export const getUsers = (_req: Request, res: Response) => {
 
 export const getUserById = (req: Request, res: Response) => {
   User.findById(req.params.userId)
+    .orFail()
     .then(user => res.send({ data: user }))
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
         return res.status(NOT_FOUND_CODE).send({ message: ID_ERROR_MESSAGE })
       }
       res.status(DEFAULT_ERROR_CODE).send({ message: DEFAULT_ERROR_MESSAGE })
