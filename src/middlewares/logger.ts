@@ -19,7 +19,7 @@ const errorTransport = new winston.transports.DailyRotateFile({
 export const requestLogger = expressWinston.logger({
   transports: [
     requestTransport,
-    new winston.transports.File({ filename: './logs/request.log' })
+    new winston.transports.File({ filename: './logs/request.log' }),
   ],
   format: winston.format.json(),
 });
@@ -27,7 +27,7 @@ export const requestLogger = expressWinston.logger({
 export const errorLogger = expressWinston.errorLogger({
   transports: [
     errorTransport,
-    new winston.transports.File({ filename: './logs/error.log' })
+    new winston.transports.File({ filename: './logs/error.log' }),
   ],
   format: winston.format.json(),
 });

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 import validator from 'validator';
 
 interface IUser {
@@ -13,19 +13,19 @@ const userSchema = new mongoose.Schema<IUser>(
   {
     name: {
       type: String,
-      default: "Жак-Ив Кусто",
+      default: 'Жак-Ив Кусто',
       minlength: [2, 'Минимальная длина поля "name" - 2 символа'],
       maxlength: [30, 'Максимальная длина поля "name" - 30 символов'],
     },
     about: {
       type: String,
-      default: "Исследователь",
+      default: 'Исследователь',
       minlength: [2, 'Минимальная длина поля "about" - 2 символа'],
       maxlength: [30, 'Максимальная длина поля "about" - 200 символов'],
     },
     avatar: {
       type: String,
-      default: "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
+      default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
       validate: {
         validator: (avatarValue: string) => validator.isURL(avatarValue),
         message: 'Некорректный URL поля "avatar"',
@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema<IUser>(
       select: false,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 export default mongoose.model<IUser>('user', userSchema);

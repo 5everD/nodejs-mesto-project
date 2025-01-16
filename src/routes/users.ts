@@ -1,6 +1,8 @@
 import { Router } from 'express';
-import { getUsers, getUser, getUserById, updateUser, updateAvatar } from '../controllers/users'
-import { userIdValidate, userUpdateAvatarValidate, userUpdateValidate } from "../utils/data-validate";
+import {
+  getUsers, getUser, getUserById, updateUser, updateAvatar,
+} from '../controllers/users';
+import { userIdValidate, userUpdateAvatarValidate, userUpdateValidate } from '../utils/data-validate';
 
 const userRouter = Router();
 

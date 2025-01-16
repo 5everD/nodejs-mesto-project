@@ -4,7 +4,7 @@ import DefaultError from './default-error';
 import ForbiddenError from './forbidden-error';
 import NotFoundError from './not-found-error';
 import UnauthorizedError from './unauthorized-error';
-import { StatusCodes } from './status-codes';
+import StatusCodes from './status-codes';
 
 export {
   BadRequestError,
@@ -13,5 +13,5 @@ export {
   ForbiddenError,
   NotFoundError,
   UnauthorizedError,
-  StatusCodes
+  StatusCodes,
 };

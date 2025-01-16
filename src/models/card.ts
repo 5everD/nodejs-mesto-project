@@ -1,6 +1,5 @@
-import { Schema, model } from "mongoose";
-import validator from "validator";
-
+import { Schema, model } from 'mongoose';
+import validator from 'validator';
 
 interface ICard {
   name: string;

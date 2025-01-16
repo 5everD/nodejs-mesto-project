@@ -1,18 +1,18 @@
-import express  from 'express';
+import express from 'express';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { errors } from 'celebrate';
 import { connect } from 'mongoose';
 import 'dotenv/config';
-import auth from "./middlewares/auth";
+import auth from './middlewares/auth';
 import rateLimit from './middlewares/rate-limit';
 import errorHandling from './middlewares/errors-handling';
 import { requestLogger, errorLogger } from './middlewares/logger';
 import userRouter from './routes/users';
 import cardRouter from './routes/cards';
-import { notFound } from "./controllers/not_found";
-import { createUser, loginUser } from './controllers/users'
-import { userSignInValidate, userSignUpValidate } from "./utils/data-validate";
+import notFound from './controllers/not_found';
+import { createUser, loginUser } from './controllers/users';
+import { userSignInValidate, userSignUpValidate } from './utils/data-validate';
 
 const { PORT = 3000 } = process.env;
 
@@ -40,4 +40,5 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandling);
 
+// eslint-disable-next-line no-console
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));

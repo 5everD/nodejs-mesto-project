@@ -1,4 +1,4 @@
-import { StatusCodes } from "./status-codes";
+import StatusCodes from './status-codes';
 
 class NotFoundError extends Error {
   statusCode: number;

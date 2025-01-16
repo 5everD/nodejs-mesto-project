@@ -1,4 +1,4 @@
-import { StatusCodes } from "./status-codes";
+import StatusCodes from './status-codes';
 
 class ForbiddenError extends Error {
   statusCode: number;

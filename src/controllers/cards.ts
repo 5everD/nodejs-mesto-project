@@ -1,35 +1,34 @@
 import { NextFunction, Request, Response } from 'express';
 import Card from '../models/card';
-import { IAppRequest } from "../types/request";
-import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError, StatusCodes } from '../errors/index';
-
+import { IAppRequest } from '../types/request';
+import {
+  BadRequestError, ForbiddenError, NotFoundError, StatusCodes,
+} from '../errors/index';
 
 const NotFoundErrorMassage = 'Передан несуществующий id карточки.';
 const BadRequestErrorMassage = 'Переданы некорректные данные для лайка или некорректный id карточки.';
 
 export const getCards = (_req: Request, res: Response, next: NextFunction) => {
   Card.find({})
-    .then(cards => res.send({ data: cards }))
+    .then((cards) => res.send({ data: cards }))
     .catch(next);
 };
 
 export const createCard = (req: IAppRequest, res: Response, next: NextFunction) => {
   const { name, link } = req.body;
   const requestUser = req.user;
+  // eslint-disable-next-line no-underscore-dangle
   const userId = typeof requestUser === 'string' ? requestUser : requestUser?._id;
 
-  if (!userId) next(new UnauthorizedError());
-
-  Card.create({ name, link, owner: userId})
-    .then(card => res.status(StatusCodes.CREATED).send({ data: card }))
+  Card.create({ name, link, owner: userId })
+    .then((card) => res.status(StatusCodes.CREATED).send({ data: card }))
     .catch(next);
 };
 
 export const deleteCardById = (req: IAppRequest, res: Response, next: NextFunction) => {
   const requestUser = req.user;
+  // eslint-disable-next-line no-underscore-dangle
   const userId = typeof requestUser === 'string' ? requestUser : requestUser?._id;
-
-  if (!userId) next(new UnauthorizedError());
 
   Card.findById(req.params.cardId)
     .orFail(new NotFoundError(NotFoundErrorMassage))
@@ -49,10 +48,9 @@ export const deleteCardById = (req: IAppRequest, res: Response, next: NextFuncti
         });
     })
     .catch((error) => {
-      const errorToThrow =
-        error.name === 'CastError'
-          ? new BadRequestError('Передан некорректный id карточки.')
-          : error;
+      const errorToThrow = error.name === 'CastError'
+        ? new BadRequestError('Передан некорректный id карточки.')
+        : error;
 
       next(errorToThrow);
     });
@@ -60,9 +58,8 @@ export const deleteCardById = (req: IAppRequest, res: Response, next: NextFuncti
 
 export const likeCard = (req: IAppRequest, res: Response, next: NextFunction) => {
   const requestUser = req.user;
+  // eslint-disable-next-line no-underscore-dangle
   const userId = typeof requestUser === 'string' ? requestUser : requestUser?._id;
-
-  if (!userId) next(new UnauthorizedError());
 
   Card.findByIdAndUpdate(
     req.params.cardId,
@@ -70,12 +67,11 @@ export const likeCard = (req: IAppRequest, res: Response, next: NextFunction) =>
     { new: true, runValidators: true },
   )
     .orFail(new NotFoundError(NotFoundErrorMassage))
-    .then(card => res.send({ data: card }))
+    .then((card) => res.send({ data: card }))
     .catch((error) => {
-      const errorToThrow =
-        error.name === 'CastError'
-          ? new BadRequestError(BadRequestErrorMassage)
-          : error;
+      const errorToThrow = error.name === 'CastError'
+        ? new BadRequestError(BadRequestErrorMassage)
+        : error;
 
       next(errorToThrow);
     });
@@ -83,9 +79,8 @@ export const likeCard = (req: IAppRequest, res: Response, next: NextFunction) =>
 
 export const dislikeCard = (req: IAppRequest, res: Response, next: NextFunction) => {
   const requestUser = req.user;
+  // eslint-disable-next-line no-underscore-dangle
   const userId = typeof requestUser === 'string' ? requestUser : requestUser?._id;
-
-  if (!userId) next(new UnauthorizedError());
 
   Card.findByIdAndUpdate(
     req.params.cardId,
@@ -93,12 +88,11 @@ export const dislikeCard = (req: IAppRequest, res: Response, next: NextFunction)
     { new: true, runValidators: true },
   )
     .orFail(new NotFoundError(NotFoundErrorMassage))
-    .then(card => res.send({ data: card }))
+    .then((card) => res.send({ data: card }))
     .catch((error) => {
-      const errorToThrow =
-        error.name === 'CastError'
-          ? new BadRequestError(BadRequestErrorMassage)
-          : error;
+      const errorToThrow = error.name === 'CastError'
+        ? new BadRequestError(BadRequestErrorMassage)
+        : error;
 
       next(errorToThrow);
     });

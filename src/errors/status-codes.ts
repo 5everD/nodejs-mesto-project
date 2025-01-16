@@ -1,4 +1,4 @@
-export const StatusCodes = {
+const statusCodes = {
   OK: 200,
   CREATED: 201,
   BAD_REQUEST: 400,
@@ -8,3 +8,5 @@ export const StatusCodes = {
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
 };
+
+export default statusCodes;

@@ -1,4 +1,4 @@
-import { StatusCodes } from "./status-codes";
+import StatusCodes from './status-codes';
 
 class ConflictError extends Error {
   statusCode: number;
