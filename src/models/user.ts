@@ -1,28 +1,49 @@
 import mongoose from "mongoose";
+import validator from 'validator';
 
 interface IUser {
   name: string;
   about: string;
   avatar: string;
+  email: string;
+  password: string;
 }
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<IUser>(
   {
     name: {
       type: String,
+      default: "Жак-Ив Кусто",
       minlength: [2, 'Минимальная длина поля "name" - 2 символа'],
       maxlength: [30, 'Максимальная длина поля "name" - 30 символов'],
-      required: [true, 'Поле "name" должно быть заполнено'],
     },
     about: {
       type: String,
+      default: "Исследователь",
       minlength: [2, 'Минимальная длина поля "about" - 2 символа'],
       maxlength: [30, 'Максимальная длина поля "about" - 200 символов'],
-      required: [true, 'Поле "about" должно быть заполнено'],
     },
     avatar: {
       type: String,
-      required: [true, 'В поле "avatar" должна быть указана ссылка на аватар'],
+      default: "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
+      validate: {
+        validator: (avatarValue: string) => validator.isURL(avatarValue),
+        message: 'Некорректный URL поля "avatar"',
+      },
+    },
+    email: {
+      type: String,
+      required: [true, 'Поле "email" должно быть заполнено'],
+      unique: true,
+      validate: {
+        validator: (email: string) => validator.isEmail(email),
+        message: 'Email некорректный',
+      },
+    },
+    password: {
+      type: String,
+      required: [true, 'Поле "password" должно быть заполнено'],
+      select: false,
     },
   },
   { versionKey: false }

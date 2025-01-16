@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import validator from "validator";
 
 
 interface ICard {
@@ -9,7 +10,7 @@ interface ICard {
   createdAt: Date;
 }
 
-const cardSchema = new Schema({
+const cardSchema = new Schema<ICard>({
   name: {
     type: String,
     minlength: [2, 'Минимальная длина поля "name" - 2 символа'],
@@ -18,6 +19,10 @@ const cardSchema = new Schema({
   },
   link: {
     type: String,
+    validate: {
+      validator: (avatarValue: string) => validator.isURL(avatarValue),
+      message: 'Некорректная ссылка',
+    },
     required: [true, 'В поле "link" должна быть указана ссылка'],
   },
   owner: {
