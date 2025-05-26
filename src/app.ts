@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import cors from 'cors';
 import { errors } from 'celebrate';
 import { connect } from 'mongoose';
 import 'dotenv/config';
@@ -20,6 +21,7 @@ const app = express();
 
 connect('mongodb://localhost:27017/mestodb');
 
+app.use(cors());
 app.use(rateLimit);
 app.use(helmet());
 app.use(express.json());
